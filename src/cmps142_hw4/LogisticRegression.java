@@ -19,17 +19,18 @@ public class LogisticRegression {
 
         /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
         public LogisticRegression(int n) { // n is the number of weights to be learned
-
+            weights = new double[n];
         }
 
         /** TODO: Implement the function that returns the L2 norm of the weight vector **/
         private double weightsL2Norm(){
-
+            // l(w) =\ln\pi{(P(y^i|x^j,w)-\lambda||w||^{2}_{2}}
         }
 
         /** TODO: Implement the sigmoid function **/
         private static double sigmoid(double z) {
-
+            // \frac{e^t}{e^t+1} = \frac{1}{1+e^-t}
+            return 1/(1+math.pow(10,-z));
         }
 
         /** TODO: Helper function for prediction **/

@@ -27,6 +27,7 @@ public class LogisticRegression_withBias {
 
         /** TODO: Implement the sigmoid function **/
         private static double sigmoid(double z) {
+            return 1/(1+math.pow(10,-z));
         }
 
         /** TODO: Helper function for prediction **/
