@@ -20,41 +20,92 @@ public class LogisticRegression {
         /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
         public LogisticRegression(int n) { // n is the number of weights to be learned
             weights = new double[n];
+            for(double i: weights)
+                i = 0;
         }
 
-        /** TODO: Implement the function that returns the L2 norm of the weight vector **/
+        /** Should be done aTODO: Implement the function that returns the L2 norm of the weight vector **/
         private double weightsL2Norm(){
-            // l(w) =\ln\pi{(P(y^i|x^j,w)-\lambda||w||^{2}_{2}}
+            // L2 Norm = sqrt(summation(weights^2))
+
+            // summation of the weights
+            double sum = 0;
+            for(double i:weights)
+                sum += Math.pow(i,2);
+
+            // sqrt of the weights
+            return Math.sqrt(sum);
         }
 
-        /** TODO: Implement the sigmoid function **/
+        /** Should be done aTODO: Implement the sigmoid function **/
         private static double sigmoid(double z) {
-            // \frac{e^t}{e^t+1} = \frac{1}{1+e^-t}
-            return 1/(1+math.pow(10,-z));
+            return 1/(1+Math.pow(10,-z));
         }
 
-        /** TODO: Helper function for prediction **/
+        /** Should mainly be completed aTODO: Helper function for prediction **/
         /** Takes a test instance as input and outputs the probability of the label being 1 **/
         /** This function should call sigmoid() **/
         private double probPred1(double[] x) {
+            // Logistic Regression 1: slide 15, 16
 
+            // calculates dot product of weights and x
+            /** TODO: Check inconsistency with Slide 16, where w0 is added independently, but in slide 18 w0 is included as a part of the summation**/
+            double dotProduct = 0;
+            for(int i = 0; i<x.length; i++){
+                dotProduct += weights[i] * x[i];
+            }
+
+            return sigmoid(dotProduct);
         }
 
-        /** TODO: The prediction function **/
+        /** Should be complete aTODO: The prediction function **/
         /** Takes a test instance as input and outputs the predicted label **/
         /** This function should call probPred1() **/
         public int predict(double[] x) {
-
+            // Logistic Regression 1: slide 20
+            // if P(Y=0|X)>(Y=1|X), then classify as 0
+            return (int)Math.round(probPred1(x));
         }
 
         /** This function takes a test set as input, call the predict() to predict a label for it, and prints the accuracy, P, R, and F1 score of the positive class and negative class and the confusion matrix **/
         public void printPerformance(List<LRInstance> testInstances) {
             double acc = 0;
+            // pos = positive class; p = Precision, R = recall, f = F1
+            // assuming that positive class is 1, negative class is 0
             double p_pos = 0, r_pos = 0, f_pos = 0;
             double p_neg = 0, r_neg = 0, f_neg = 0;
             int TP=0, TN=0, FP=0, FN=0; // TP = True Positives, TN = True Negatives, FP = False Positives, FN = False Negatives
 
             // TODO: write code here to compute the above mentioned variables
+            // LR instance { int label, double x[] }
+            for(LRInstance instance : testInstances){
+                double prediction = predict(instance.x);
+
+                // prediction is accurate
+                if(prediction == instance.label){
+                    if(prediction == 1) {
+                        TP++;
+                    }else{
+                        TN++;
+                    }
+                }else {
+                    if (prediction == 1) {
+                        FP++;
+                    } else {
+                        FN++;
+                    }
+                }
+            }
+
+            acc = (TP+TN)/testInstances.size();
+
+            p_pos = TP/(TP+FP);
+            r_pos = TP/(TP+FN);
+            f_pos = 2*(p_pos+r_pos)/(p_pos+r_pos);
+
+            p_neg = TN/(TN+FN);
+            r_neg = TN/(TN+FP);
+            f_neg = 2*(p_neg+r_neg)/(p_neg+r_neg);
 
             System.out.println("Accuracy="+acc);
             System.out.println("P, R, and F1 score of the positive class=" + p_pos + " " + r_pos + " " + f_pos);
@@ -72,8 +123,12 @@ public class LogisticRegression {
                 double lik = 0.0; // Stores log-likelihood of the training data for this iteration
                 for (int i=0; i < instances.size(); i++) {
                     // TODO: Train the model
-
+                    // for k=1 to K do:
+                    //   for each paramemter wi
+                    //     w^{k}_{i} <- w^{k-1}_{i} + n\sum_{l}{X^{l}_{i}-P(Yl = 1| X^l, W)}
+                    
                     // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
+
 				}
                 System.out.println("iteration: " + n + " lik: " + lik);
             }
@@ -83,8 +138,10 @@ public class LogisticRegression {
             public int label; // Label of the instance. Can be 0 or 1
             public double[] x; // The feature vector for the instance
 
-            /** TODO: Constructor for initializing the Instance object **/
+            /** Should be completed aTODO: Constructor for initializing the Instance object **/
             public LRInstance(int label, double[] x) {
+                this.label = label;
+                this.x = x;
             }
         }
 
