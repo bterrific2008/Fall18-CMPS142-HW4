@@ -41,7 +41,7 @@ public class LogisticRegression_withBias {
 
         /** TODO: Implement the sigmoid function **/
         private static double sigmoid(double z) {
-            return 1.0/(1.0+Math.pow(10,-z));
+            return 1.0/(1.0+Math.exp(-z));
         }
 
         /** TODO: Helper function for prediction **/
