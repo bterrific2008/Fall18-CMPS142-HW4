@@ -88,7 +88,7 @@ public class LogisticRegression {
                     }else{
                         TN++;
                     }
-                }else {
+                }else { // prediction inaccurate
                     if (prediction == 1) {
                         FP++;
                     } else {
@@ -97,14 +97,14 @@ public class LogisticRegression {
                 }
             }
 
-            acc = (TP+TN)/testInstances.size();
+            acc = ((double)TP+TN)/testInstances.size();
 
-            p_pos = TP/(TP+FP);
-            r_pos = TP/(TP+FN);
+            p_pos = TP/((double)TP+FP);
+            r_pos = TP/((double)TP+FN);
             f_pos = 2*(p_pos+r_pos)/(p_pos+r_pos);
 
-            p_neg = TN/(TN+FN);
-            r_neg = TN/(TN+FP);
+            p_neg = TN/((double)TN+FN);
+            r_neg = TN/((double)TN+FP);
             f_neg = 2*(p_neg+r_neg)/(p_neg+r_neg);
 
             System.out.println("Accuracy="+acc);
@@ -124,34 +124,25 @@ public class LogisticRegression {
                 for (int i=0; i < instances.size(); i++) {
 
                     // TODO: Train the model
+
+                    // our weights are already initialized as zero
+
                     double[] feats = instances.get(i).x;
                     int label = instances.get(i).label;
-                    double prob = label - probPred1(feats);
-                    int check = 26;
-                    double highest = 0;
-
-                    //weights[n+1] = weights[n];
-                    for (int p=0; p < weights.length-1; p++) {
-                        highest = Math.max(rate*feats[p]*(prob), highest);
-                        if(n+1 == check)
-                            System.out.println("Weight " + weights[n+1] + " at " + (n+1) + " with change " + rate + " * " + feats[p] + " * " + (prob));
-                    }
-                    weights[n+1] = weights[n] + highest;
-                    if(n+1==check-1){
-                        System.out.println("Weight at " + (n + 1) + ": " + weights[n + 1]);
-                    }
-                    if(n+1 == check) {
-                        System.out.println("Weight at " + (n + 1) + ": " + weights[n + 1]);
-
-                        System.exit(0);
-                    }
-                    // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
+                    double prob = probPred1(feats);
                     double dotProduct = 0;
-                    for(int p = 0; p<feats.length; p++){
+
+                    // for each of the weights (parameter w_i)
+                    for(int p = 0; p < weights.length; p++) {
+                        weights[p] = weights[p] + ( rate * feats[p] * (label - prob) );
                         dotProduct += weights[p] * feats[p];
                     }
-                    lik += label*dotProduct - Math.log(1 + Math.exp(dotProduct));
+
+                    // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
+
+                    lik += label * dotProduct - Math.log(1 + Math.exp(dotProduct));
 				}
+
                 System.out.println("iteration: " + n + " lik: " + lik);
             }
         }
