@@ -23,23 +23,26 @@ public class LogisticRegression_withBias {
 
         /** TODO: Implement the function that returns the L2 norm of the weight vector **/
         private double weightsL2Norm(){
+            return -1;
         }
 
         /** TODO: Implement the sigmoid function **/
         private static double sigmoid(double z) {
-            return 1/(1+math.pow(10,-z));
+            return 1/(1+Math.pow(10,-z));
         }
 
         /** TODO: Helper function for prediction **/
         /** Takes a test instance as input and outputs the probability of the label being 1 **/
         /** This function should call sigmoid() **/
         private double probPred1(double[] x) {
+            return -1;
         }
 
         /** TODO: The prediction function **/
         /** Takes a test instance as input and outputs the predicted label **/
         /** This function should call probPred1() **/
         public int predict(double[] x) {
+            return -1;
         }
 
         /** This function takes a test set as input, call the predict() to predict a label for it, and prints the accuracy, P, R, and F1 score of the positive class and negative class and the confusion matrix **/

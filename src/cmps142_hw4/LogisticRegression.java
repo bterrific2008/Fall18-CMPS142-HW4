@@ -39,7 +39,7 @@ public class LogisticRegression {
 
         /** Should be done aTODO: Implement the sigmoid function **/
         private static double sigmoid(double z) {
-            return 1/(1+Math.pow(10,-z));
+            return 1.0/(1.0+Math.exp(-z));
         }
 
         /** Should mainly be completed aTODO: Helper function for prediction **/
@@ -122,13 +122,35 @@ public class LogisticRegression {
             for (int n = 0; n < ITERATIONS; n++) {
                 double lik = 0.0; // Stores log-likelihood of the training data for this iteration
                 for (int i=0; i < instances.size(); i++) {
-                    // TODO: Train the model
-                    // for k=1 to K do:
-                    //   for each paramemter wi
-                    //     w^{k}_{i} <- w^{k-1}_{i} + n\sum_{l}{X^{l}_{i}-P(Yl = 1| X^l, W)}
-                    
-                    // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
 
+                    // TODO: Train the model
+                    double[] feats = instances.get(i).x;
+                    int label = instances.get(i).label;
+                    double prob = label - probPred1(feats);
+                    int check = 26;
+                    double highest = 0;
+
+                    //weights[n+1] = weights[n];
+                    for (int p=0; p < weights.length-1; p++) {
+                        highest = Math.max(rate*feats[p]*(prob), highest);
+                        if(n+1 == check)
+                            System.out.println("Weight " + weights[n+1] + " at " + (n+1) + " with change " + rate + " * " + feats[p] + " * " + (prob));
+                    }
+                    weights[n+1] = weights[n] + highest;
+                    if(n+1==check-1){
+                        System.out.println("Weight at " + (n + 1) + ": " + weights[n + 1]);
+                    }
+                    if(n+1 == check) {
+                        System.out.println("Weight at " + (n + 1) + ": " + weights[n + 1]);
+
+                        System.exit(0);
+                    }
+                    // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
+                    double dotProduct = 0;
+                    for(int p = 0; p<feats.length; p++){
+                        dotProduct += weights[p] * feats[p];
+                    }
+                    lik += label*dotProduct - Math.log(1 + Math.exp(dotProduct));
 				}
                 System.out.println("iteration: " + n + " lik: " + lik);
             }
