@@ -20,14 +20,14 @@ public class LogisticRegression_withRegularization {
         /** the number of iterations */
         private int ITERATIONS = 200;
 
-        /** TODO: Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
+        /** Constructor initializes the weight vector. Initialize it by setting it to the 0 vector. **/
         public LogisticRegression_withRegularization(int n) { // n is the number of weights to be learned
             weights = new double[n];
             for(double w: weights)
                 w = 0.0;
 		}
 
-        /** TODO: Implement the function that returns the L2 norm of the weight vector **/
+        /** Implement the function that returns the L2 norm of the weight vector **/
         private double weightsL2Norm(){
             // L2 Norm = sqrt(summation(weights^2))
 
@@ -40,19 +40,19 @@ public class LogisticRegression_withRegularization {
             return Math.sqrt(sum);
         }
 
-        /** TODO: Implement the sigmoid function **/
+        /** Implement the sigmoid function **/
         private static double sigmoid(double z) {
             return 1.0/(1.0+Math.exp(-z));
         }
 
-        /** TODO: Helper function for prediction **/
+        /** Helper function for prediction **/
         /** Takes a test instance as input and outputs the probability of the label being 1 **/
         /** This function should call sigmoid() **/
         private double probPred1(double[] x) {
             // Logistic Regression 1: slide 15, 16
 
             // calculates dot product of weights and x
-            /** TODO: Check inconsistency with Slide 16, where w0 is added independently, but in slide 18 w0 is included as a part of the summation**/
+            /** Check inconsistency with Slide 16, where w0 is added independently, but in slide 18 w0 is included as a part of the summation**/
             double dotProduct = 0;
             for(int i = 0; i<x.length; i++){
                 dotProduct += weights[i] * x[i];
@@ -61,7 +61,7 @@ public class LogisticRegression_withRegularization {
             return sigmoid(dotProduct);
         }
 
-        /** TODO: The prediction function **/
+        /** The prediction function **/
         /** Takes a test instance as input and outputs the predicted label **/
         /** This function should call probPred1() **/
         public int predict(double[] x) {
@@ -77,7 +77,7 @@ public class LogisticRegression_withRegularization {
             double p_neg = 0, r_neg = 0, f_neg = 0;
             int TP=0, TN=0, FP=0, FN=0; // TP = True Positives, TN = True Negatives, FP = False Positives, FN = False Negatives
 
-            // TODO: write code here to compute the above mentioned variables
+            // write code here to compute the above mentioned variables
             // LR instance { int label, double x[] }
             for(LRInstance instance : testInstances){
                 double prediction = predict(instance.x);
@@ -123,7 +123,7 @@ public class LogisticRegression_withRegularization {
             for (int n = 0; n < ITERATIONS; n++) {
                 double lik = 0.0; // Stores log-likelihood of the training data for this iteration
                 for (int i=0; i < instances.size(); i++) {
-                    // TODO: Train the model
+                    // Train the model
 
                     // our weights are already initialized as zero
 
@@ -138,7 +138,7 @@ public class LogisticRegression_withRegularization {
                         dotProduct += weights[p] * feats[p];
                     }
 
-                    // TODO: Compute the log-likelihood of the data here. Remember to take logs when necessary
+                    // Compute the log-likelihood of the data here. Remember to take logs when necessary
                     lik += label * dotProduct - Math.log(1 + Math.exp(dotProduct));
 				}
                 System.out.println("iteration: " + n + " lik: " + lik);
@@ -149,7 +149,7 @@ public class LogisticRegression_withRegularization {
             public int label; // Label of the instance. Can be 0 or 1
             public double[] x; // The feature vector for the instance
 
-            /** TODO: Constructor for initializing the Instance object **/
+            /** Constructor for initializing the Instance object **/
             public LRInstance(int label, double[] x) {
                 this.label = label;
                 this.x = x;
