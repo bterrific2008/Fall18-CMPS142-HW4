@@ -15,7 +15,8 @@ public class LogisticRegression_withRegularization {
         private double[] weights;
 
 		/** the regularization coefficient */
-        private double lambda = 0.001;
+        //private double lambda = 0.001;
+        private double lambda = 10;
 
         /** the number of iterations */
         private int ITERATIONS = 200;
@@ -134,7 +135,7 @@ public class LogisticRegression_withRegularization {
 
                     // for each of the weights (parameter w_i)
                     for(int p = 0; p < weights.length; p++) {
-                        weights[p] = weights[p] + rate * ( feats[p] * (label - prob) - 2*lambda*weights[p] );
+                        weights[p] = weights[p] + rate * feats[p] * (label - prob) - (rate * lambda*weights[p]) ;
                         dotProduct += weights[p] * feats[p];
                     }
 
